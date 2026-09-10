@@ -1,62 +1,85 @@
-# 双色球/大乐透/七乐彩/七星彩～彩票AI预测
+# AI 彩票号码预测
 
-在线训练预测：https://www.ai-spinach.xyz/ 
+<img src="img/logo.png" alt="项目 Logo" width="80">
 
-有问题，请联系客服（客服1群：246714623，客服2群：980203303）
+[English](README.en.md) | 简体中文
 
-## Installing
-        
-* step1，安装anaconda(可参考https://zhuanlan.zhihu.com/p/32925500)；
+> **在线训练预测：** <https://www.ai-spinach.xyz>  
+> **联系客服：** QQ1群: `246714623`，QQ2群: `980203303`
 
-* step2，创建一个conda环境，conda create -n your_env_name python=3.11；
-       
-* step3，进入创建conda的环境 conda activate your_env_name，然后执行pip install -r requirements.txt；
-       
-* step4，按照Getting Started执行即可，推荐使用PyCharm
+## 📖 项目简介
 
-## Getting Started
+本项目是一个基于深度学习的彩票号码预测实验项目，**仅供娱乐，请勿用于任何非法用途或过度投注。**
 
-``` python
-python get_data.py  --name ssq  # 执行获取双色球训练数据
-```
-如果出现解析错误，应该看看网页 http://datachart.500.com/ssq/history/newinc/history.php 是否可以正常访问
+项目的核心是**序列模型的预测能力**。与传统将每个号码独立预测不同，本项目将红球号码视为一个完整的序列进行建模，并引入 **CRF（条件随机场）** 层来捕捉号码之间的序列依赖关系。这种方式能有效避免独立预测产生的重复号码问题，提升预测结果的连贯性和合理性。蓝球则单独建立模型进行预测。
 
-若要大乐透，替换参数 --name dlt
+整个模型基于 TensorFlow 1.x 兼容模式构建，在 TensorFlow 2.x 下通过 `tf.compat.v1` 接口运行。
 
-若要七乐彩，替换参数 --name qlc
+## ✨ 功能特性
 
-若要七星彩，替换参数 --name qxc
+- 支持双色球、大乐透、七乐彩、七星彩
+- 提供在线训练预测 Web 应用，无需本地部署
+- 采用 **LSTM + CRF 序列模型**，提升红球预测的连贯性
+- 支持模型预测评估，可调整训练集/测试集比例
+- 纯脚本化运行，无需 Docker 或微服务
 
-``` python
-python run_train_model.py --name ssq  # 执行训练双色球模型
-``` 
-开始模型训练，先训练红球模型，再训练蓝球模型，模型参数和超参数在 config.py 文件中自行配置
-具体训练时间消耗与模型参数和超参数相关。
+## 🛠️ 安装
 
-``` python
-python run_predict.py  --name ssq # 执行双色球模型预测
-```
-预测结果会打印在控制台
+1. 安装 Anaconda（可参考 [教程](https://zhuanlan.zhihu.com/p/32925500)）
+2. 创建 conda 环境：
+   ```bash
+   conda create -n your_env_name python=3.11
+   ```
+3. 激活环境并安装依赖：
+      ```bash
+      conda activate your_env_name
+      pip install -r requirements.txt
+      ```
 
-## Update
+## 🚀 快速开始
+1. 获取训练数据
+      ```bash
+      python get_data.py --name ssq   # 双色球
+      ```
+    若解析错误，请检查网页 http://datachart.500.com/ssq/history/newinc/history.php 是否可正常访问。
 
-* 新增七乐彩、七星彩，输入参数qlc、qxc
+    其他彩种参数：
 
-* 爬虫好像会被风控，requests切换为curl_cffi, py要升级到3.11
+    | 彩票名称 | 参数 |
+    | --- | --- |
+    | 大乐透 | `--name dlt` |
+    | 七乐彩 | `--name qlc` |
+    | 七星彩 | `--name qxc` |
 
-* 上线一款web端应用，无需自己下载源码，在web端可以完成在线训练预测
+2. 训练模型
+    ```bash
+    python run_train_model.py --name ssq
+    ```
+    先训练红球模型，再训练蓝球模型。模型参数和超参数在 config.py 中配置。训练时间取决于参数设置。
 
-* 新增模型预测评估，可以自行调整训练集和测试集比例，建议训练集采样比例高于0.5
+3. 预测号码
+    ``` bash
+    python run_predict.py --name ssq
+    ```
+    预测结果将打印在控制台。
 
-* 修复大乐透蓝球号码预测超出取值范围问题，修复训练传参数导致数据维度不匹配问题
+## 📝 更新日志
+* 新增七乐彩、七星彩支持（参数 qlc、qxc）
 
-* 有盆友反馈想要个大乐透的预测玩法，加入对大乐透的数据爬取，模型训练，模型预测等功能，通过传入执行参数 --name dlt即可。
+* 爬虫因风控改用 curl_cffi，Python 需升级至 3.11
 
-* 为了降低本项目的使用门槛，废弃docker模式和微服务，按照Getting Started执行脚本，即可获取预测结果。
+* 上线 Web 端应用，无需下载源码即可在线训练预测
 
-* 非常开心有更多的同志们关注项目，并且提出了很多宝贵的问题，但是由于工作较忙，没有给大家比较完善的解答，再次说句抱歉，
-大部分问题都是安装依赖问题，我更新了requirements.txt中相关库版本，应该可以解决。
+* 新增模型预测评估，可调整训练集/测试集比例（建议训练集采样比例 > 0.5）
 
-* 之前有issue反应，因为不同红球模型预测会有重复号码出现，所以将红球序列整体作为一个序列模型看待，推翻之前红球之间相互独立设定，
-因为序列模型预测要引入crf层，相关API必须在 tf.compat.v1.disable_eager_execution()下，故整个模型采用 1.x 构建和训练模式，
-在 2.x 的tensorflow中 tf.compat.v1.XXX 保留了 1.x 的接口方式。
+* 修复大乐透蓝球号码预测超出取值范围的问题
+
+* 修复训练传参导致数据维度不匹配的问题
+
+* 新增对大乐透的完整支持（数据爬取、训练、预测），参数 --name dlt
+
+* 废弃 Docker 模式和微服务，降低使用门槛，直接运行脚本即可
+
+* 更新 requirements.txt 中相关库版本，解决大部分安装依赖问题
+
+* 将红球作为整体序列模型（LSTM + CRF），替代原先红球独立预测的设定，避免重复号码。因 CRF 层 API 需在 tf.compat.v1.disable_eager_execution() 下运行，整个模型采用 1.x 构建和训练模式。
