@@ -3,7 +3,7 @@
 
 <img src="img/logo.png" alt="项目 Logo" width="80">
 
-English | [简体中文](README.md)
+[简体中文](README.md) | English
 
 > **Online Training & Prediction:** <https://www.ai-spinach.xyz>  
 > **Customer Service:** Group 1 `246714623`, Group 2 `980203303`

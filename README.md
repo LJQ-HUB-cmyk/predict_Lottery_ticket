@@ -2,7 +2,7 @@
 
 <img src="img/logo.png" alt="项目 Logo" width="80">
 
-[English](README.en.md) | 简体中文
+简体中文 | [English](README.en.md) | 
 
 > **在线训练预测：** <https://www.ai-spinach.xyz>  
 > **联系客服：** QQ1群: `246714623`，QQ2群: `980203303`
